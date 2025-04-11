@@ -1,0 +1,49 @@
+﻿@model WedBanHang.Models.Order
+@{
+    ViewData["Title"] = "Chi tiết đơn hàng";
+}
+
+<div class="container mt-5">
+    <h2 class="text-center text-primary">Chi tiết đơn hàng #@Model.Id</h2>
+
+    <div class="mb-4">
+        <p><strong>Người đặt:</strong> @Model.ApplicationUser.FullName</p>
+        <p><strong>Ngày đặt hàng:</strong> @Model.OrderDate.ToString("dd/MM/yyyy HH:mm")</p>
+        <p><strong>Địa chỉ giao hàng:</strong> @Model.ShippingAddress</p>
+        <p><strong>Ghi chú:</strong> @Model.Notes</p>
+        <p><strong>Trạng thái:</strong> @Model.Status</p>
+        <p><strong>Phương thức thanh toán:</strong> @Model.PaymentMethod</p>
+    </div>
+
+    <h4 class="text-secondary">Danh sách sản phẩm</h4>
+    <table class="table table-bordered mt-3">
+        <thead class="table-light">
+            <tr>
+                <th>Sản phẩm</th>
+                <th>Số lượng</th>
+                <th>Giá</th>
+                <th>Thành tiền</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model.OrderDetails)
+            {
+                    <tr>
+                        <td>@item.Product.Name</td>
+                        <td>@item.Quantity</td>
+                        <td>@item.Price.ToString("N0") đ</td>
+                        <td>@(item.Price * item.Quantity).ToString("N0") đ</td>
+                    </tr>
+            }
+        </tbody>
+    </table>
+
+    <div class="text-end">
+        <h5>Tổng tiền: <strong class="text-danger">@Model.TotalPrice.ToString("N0") đ</strong></h5>
+    </div>
+
+    <div class="mt-4 text-center">
+        <a asp-controller="Home" asp-action="Index" class="btn btn-secondary">Quay về trang chủ</a>
+    </div>
+</div>
+
